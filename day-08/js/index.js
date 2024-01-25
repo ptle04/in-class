@@ -241,16 +241,16 @@ let squares = numbers.map(function(n) {
 console.log(squares); // [1, 4, 9, 16, 25]
  */
  
-/* 
-let array = [3,1,4,2,5];
+ /*
+let array = [43,21,14,12,25];
 
 let isACrowd = array.filter(function(n) { 
-  return n >= 3; //keep if > 3
+  return n >= 21; //keep if > 3
 }); //returns [3,4,5]
 
- */
+ console.log(isACrowd);
+*/
 
-/* 
 function link(accumulation, newItem) { //adds two numbers
   let newAccumulation = accumulation + "->" + newItem;
 return newAccumulation;
@@ -264,7 +264,7 @@ linked = link(linked, letters[i]);
 }
 console.log(linked); //"->a->b->c->d->e"
 
- */
+ 
 /* 
 function link(accumulation, newItem) { //adds two numbers
   let newAccumulation = accumulation + "->"+newItem;
