@@ -155,8 +155,8 @@ console.log( sayHello ); // logs "[Function: sayHello]"
 //resolve the expression, THEN print that out
 console.log( sayHello() ); // logs "Hello", which is 
                            // what `sayHello()` resolves to.
- */
-
+ 
+*/
 /* 
 //takes in TWO callback functions!
 function doTogether(firstCallback, secondCallback){
