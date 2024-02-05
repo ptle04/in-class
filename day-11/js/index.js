@@ -12,8 +12,8 @@ $('form').submit(function (event) {
 
     // Fetch the data at that URL, THEN
     // Return the `.json()` of the response, THEN
-    // Pass the results to renderSearchResults, make sure to CATCH
-    // Any of your errors
+    // Pass the results to renderSearchResults
+    // make sure to CATCH any of your errors
 
 
     return false; // prevent unwanted page behavior
