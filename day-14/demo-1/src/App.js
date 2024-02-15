@@ -6,7 +6,7 @@ import './App.css';
 
 const App = () => {
   // Use useState hook for managing state
-  const [numPoints, setNumPoints] = useState(10);
+  const [numPoints, setNumPoints] = useState(42);
 
   // Update points: to be assigned to input as event listener
   const updatePoints = (event) => {
@@ -27,7 +27,7 @@ const App = () => {
         <input id="num-points" type="number" onChange={updatePoints} value={numPoints} />
 
         {/* XYPlot component for displaying the chart */}
-        <XYPlot height={300} width={300}>
+        <XYPlot height={300} width={600}>
             {/* MarkSeries component displaying the data points */}
             <MarkSeries data={points} />
 
