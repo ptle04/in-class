@@ -1,5 +1,9 @@
 // Import Component
+<<<<<<< HEAD
 import React, { useState } from 'react';
+=======
+import React, { Component, useState } from 'react';
+>>>>>>> refs/remotes/origin/main
 
 // UserInput component
 const UserInput = (props) => {
@@ -7,7 +11,10 @@ const UserInput = (props) => {
     // Return an input element that, on change, does the event passed to update via props
         return (
           <div>
+<<<<<<< HEAD
             <input className="form-control mb-2" placeholder="Search employees..." onChange={(e) => props.update(e)}></input>
+=======
+>>>>>>> refs/remotes/origin/main
           </div>
         )
     }
@@ -43,7 +50,10 @@ const Table = (props) => {
                   </tr>
                   {
                   // write your code here!
+<<<<<<< HEAD
                   
+=======
+>>>>>>> refs/remotes/origin/main
                   }
                 </tbody>
               </table>
@@ -76,8 +86,11 @@ const SearchApp = (props) => {
     // Return a `div` containing a  `UserInput` component and a `Table` component
     return (
         <div>
+<<<<<<< HEAD
           <UserInput update={updateChange}/>
           <Table data={employees}/>
+=======
+>>>>>>> refs/remotes/origin/main
         </div>
     )
 }
