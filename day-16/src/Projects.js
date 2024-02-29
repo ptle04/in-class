@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as d3 from 'd3';
 import { Card, Button, CardBody, CardTitle, CardText, Col } from 'reactstrap';
+import {getDatabase} from 'firebase/database';
 
 const Projects = () => {
     const [data, setData] = useState([]);

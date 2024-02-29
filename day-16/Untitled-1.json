@@ -1,0 +1,22 @@
+// All data is stored in the same object
+{
+    "todos":{
+        "project-1":{
+            "description": "My first project, which was awesome.",
+            "link":"https://www.google.com/",
+            "name":"Facebook Project"
+        },
+        "project-2":{
+            "description": "My second project",
+            "link":"https://www.facebook.com/",
+            "name":"Amazing Project"
+        },
+        
+        "project-3":{
+            "description": "My third project - also fun",
+            "link":"https://react.dev/",
+            "name":"React!"
+        }
+    }
+};
+

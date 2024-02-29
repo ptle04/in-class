@@ -1,0 +1,13 @@
+{
+  "database": {
+    "rules": "n"
+  },
+  "hosting": {
+    "public": "deploy",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
