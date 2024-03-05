@@ -14,28 +14,41 @@ import {
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from './Config';
 //Import needed auth functions: getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut 
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from './firebase/auth';
+import { get } from 'server/router';
 
 // Initialize Firebase app with the provided configuration
 
-// Get the firebase authentication instance
+const app = initializeApp(firebaseConfig);
 
+// Get the firebase authentication instance
+const auth = getAuth(app);
 
 // Import your other components here as desired
 
 
 function App() {
   // Set initial state using useState (user, email, password, username, errorMessage)
-
+  const [user, setUser] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     // Listen to state authentication state change
     const unsubscribe = onAuthStateChanged(auth, (user) => {
         // If there is a user, set the state of `user`, and set state of email, password and errormessage to blank
         if (user) {
+          setUser(user);
+          setEmail('');
+          setPassword('');
+          setUsername('');
+          setErrorMessage('');
         
         //otherwise user is null
         } else {
-
+          setUser(null);
         }
     });
     // Clean up the subscription on component unmount
@@ -46,7 +59,10 @@ function App() {
   const handleChange = (event) => {
     const { name, value } = event.target;
     // Use separate state setters for each field
-  };
+    if (name === 'email') setEmail(value)
+    else if (name === 'password') setPassword(value)
+    else if (name === 'username') setUsername(value)
+   };
 
   // Method for handling someone signing up 
   const handleSignUp = async () => {
@@ -83,7 +99,8 @@ function App() {
       }
   };
   // set welcomeDiv to a sign up/sign in message if no user, otherwise display a message for the user
-
+  const welcomeDiv = !!user ? <h1>Sign in or Sign Up below</h1> : <h1>Welcome, {user.displayName} </h1>;
+  
   // set up an ErrorDiv for any errors coming back from the the auth calls
   const errorDiv = errorMessage === "" ? "" : <Alert color='danger'>Error: {errorMessage}</Alert>;
  
