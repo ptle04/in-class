@@ -10,25 +10,29 @@ import {
   Alert,
 } from 'reactstrap';
 
-// Import necessary firebase functions and config files
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from './Config';
-//Import needed auth functions: getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut 
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from './firebase/auth';
-import { get } from 'server/router';
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  updateProfile, 
+  onAuthStateChanged, 
+  signOut 
+} from 'firebase/auth';
 
 // Initialize Firebase app with the provided configuration
-
 const app = initializeApp(firebaseConfig);
 
-// Get the firebase authentication instance
+// Get authentication instance
 const auth = getAuth(app);
 
-// Import your other components here as desired
+
+// Import your other components here as needed
 
 
 function App() {
-  // Set initial state using useState (user, email, password, username, errorMessage)
+  // Set initial state using useState
   const [user, setUser] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,15 +42,12 @@ function App() {
   useEffect(() => {
     // Listen to state authentication state change
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-        // If there is a user, set the state of `user`, and set state of email, password and errormessage to blank
+        // If there is a user, set the state of `user`
         if (user) {
           setUser(user);
           setEmail('');
           setPassword('');
-          setUsername('');
           setErrorMessage('');
-        
-        //otherwise user is null
         } else {
           setUser(null);
         }
@@ -59,20 +60,22 @@ function App() {
   const handleChange = (event) => {
     const { name, value } = event.target;
     // Use separate state setters for each field
-    if (name === 'email') setEmail(value)
-    else if (name === 'password') setPassword(value)
-    else if (name === 'username') setUsername(value)
-   };
+    if (name === 'email') setEmail(value);
+    else if (name === 'password') setPassword(value);
+    else if (name === 'username') setUsername(value);
+  };
 
   // Method for handling someone signing up 
   const handleSignUp = async () => {
       try {
           // Create a new user and save their information
-
-            // THEN update the display name of the user. Be sure to reset the form field to blank
-
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            // Update the display name of the user
+            await updateProfile(userCredential.user, { displayName: username });
+            setUsername('');
           // Set the state as the current (firebase) user
-
+          setUser(userCredential.user);
+          console.log(user);
         } catch (error) {
           setErrorMessage(error.message);
       }
@@ -82,6 +85,8 @@ function App() {
   const handleSignIn = async () => {
       try {
           // Sign in the user
+          await signInWithEmailAndPassword(auth, email, password);
+          console.log(user);
 
       } catch (error) {
           setErrorMessage(error.message);
@@ -91,31 +96,28 @@ function App() {
   // Method for handling someone signing out
   const handleSignOut = async () => {
       try {
-          // Sign out the user. Reset the form to blank
-
+          // Sign out the user
+          await signOut(auth);
+          setEmail('');
+          setPassword('');
+          setUsername('');
 
         } catch (error) {
           setErrorMessage(error.message);
       }
   };
-  // set welcomeDiv to a sign up/sign in message if no user, otherwise display a message for the user
-  const welcomeDiv = !!user ? <h1>Sign in or Sign Up below</h1> : <h1>Welcome, {user.displayName} </h1>;
-  
-  // set up an ErrorDiv for any errors coming back from the the auth calls
+
+  const welcomeDiv = user === null ? <h1>Sign in or Sign-up below!</h1> : <Alert color="info">Hello, {user.displayName}</Alert>;
   const errorDiv = errorMessage === "" ? "" : <Alert color='danger'>Error: {errorMessage}</Alert>;
  
-  // evaluate if the email is valid
+
   const isValidEmail = (email) => {
     // Regular expression for a simple email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  //check if we are ready to submit the form / isNotReadytoSubmit will be true if any of the following conditions is met:
-    //The user is already logged in (user is truthy). 
-    //The email is not valid. 
-    //The password is an empty string.
-  const isNotReadytoSubmit = !!user || (!isValidEmail(email) || password === '');
+  const isReadytoSubmit = !!user || (!isValidEmail(email) || password === '');
 
   // Create (and render) divs to welcome the user / show errors 
   return (
@@ -161,11 +163,11 @@ function App() {
       </FormGroup>
 
       <FormGroup>
-        <Button color="primary" className="mr-2" onClick={handleSignUp} disabled={isNotReadytoSubmit || username === ''}>
+        <Button color="primary" className="mr-2" onClick={handleSignUp} disabled={isReadytoSubmit || username === ''}>
           Sign Up
         </Button>
         {' '}
-        <Button color="success" className="mr-2" onClick={handleSignIn} disabled={isNotReadytoSubmit || username !== ''}>
+        <Button color="success" className="mr-2" onClick={handleSignIn} disabled={isReadytoSubmit || username !== ''}>
           Sign In
         </Button> 
         {' '}
